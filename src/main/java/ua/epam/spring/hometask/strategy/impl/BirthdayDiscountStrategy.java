@@ -19,12 +19,17 @@ import ua.epam.spring.hometask.strategy.DiscountStrategy;
  */
 public class BirthdayDiscountStrategy implements DiscountStrategy {
 
+    public BirthdayDiscountStrategy(){
+    }
+
     @Override
     public byte getDiscount(@Nullable User user, @Nonnull Event event, @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
         if (user != null) {
             final LocalDateTime userBirthDay = user.getBirthDay();
-            final LocalDateTime eventClosestAir = event.getAirDates().floor(userBirthDay);
-            if (DAYS.between(userBirthDay, eventClosestAir) < 5) {
+            final LocalDateTime eventClosestFloorAir = event.getAirDates().floor(userBirthDay);
+            final LocalDateTime eventClosestCeilingAir = event.getAirDates().ceiling(userBirthDay);
+            if ((eventClosestFloorAir != null && DAYS.between(userBirthDay, eventClosestFloorAir) < 5) ||
+                    (eventClosestCeilingAir != null && DAYS.between(userBirthDay, eventClosestCeilingAir) < 5)) {
                 return 5;
             }
         }

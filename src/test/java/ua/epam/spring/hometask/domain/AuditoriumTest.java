@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * @author Yuriy_Tkach
  */
-public class TestAuditorium {
+public class AuditoriumTest {
 	
 	@Test
 	public void testCountVips() {

@@ -21,9 +21,10 @@ public class BookingServiceImpl implements BookingService {
     private static final double HIGH_RATED_MOVIES_MULTIPLIER = 1.2;
 
     private DiscountService discountService;
+
     private TicketDao ticketDao;
 
-    private BookingServiceImpl(final DiscountService discountService, final TicketDao ticketDao) {
+    BookingServiceImpl(final DiscountService discountService, final TicketDao ticketDao) {
         this.discountService = discountService;
         this.ticketDao = ticketDao;
     }
@@ -35,7 +36,9 @@ public class BookingServiceImpl implements BookingService {
         final double basePrice = event.getBasePrice();
         final Auditorium auditorium = event.getAuditoriums().get(dateTime);
 
-        final long vipSeatsCount = seats.stream().filter(seat -> auditorium.getVipSeats().contains(seat)).count();
+        final long vipSeatsCount = seats.stream()
+                .filter(seat -> auditorium.getVipSeats().contains(seat))
+                .count();
         final long commonSeatsCount = seats.size() - vipSeatsCount;
 
         double resultPrice = commonSeatsCount * basePrice + vipSeatsCount * basePrice * VIP_SEATS_MULTIPLIER;

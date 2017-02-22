@@ -17,29 +17,29 @@ public class EventServiceImpl implements EventService {
 
     private EventDao eventDao;
 
-    private EventServiceImpl(final EventDao eventDao) {
+    EventServiceImpl(final EventDao eventDao) {
         this.eventDao = eventDao;
     }
 
     @Nullable
     @Override
-    public Event getByName(@Nonnull String name) {
+    public Event getByName(@Nonnull final String name) {
         return eventDao.getByName(name);
     }
 
     @Nonnull
     @Override
-    public Event save(@Nonnull Event object) {
+    public Event save(@Nonnull final Event object) {
         return eventDao.save(object);
     }
 
     @Override
-    public void remove(@Nonnull Event object) {
+    public void remove(@Nonnull final Event object) {
         eventDao.delete(object);
     }
 
     @Override
-    public Event getById(@Nonnull Long id) {
+    public Event getById(@Nonnull final Long id) {
         return eventDao.getById(id);
     }
 
@@ -51,13 +51,13 @@ public class EventServiceImpl implements EventService {
 
     @Nonnull
     @Override
-    public Collection<Event> getForDateRange(@Nonnull LocalDateTime from, @Nonnull LocalDateTime to) {
+    public Collection<Event> getForDateRange(@Nonnull final LocalDateTime from, @Nonnull final LocalDateTime to) {
         return eventDao.getForDateRange(from, to);
     }
 
     @Nonnull
     @Override
-    public Collection<Event> getNextEvents(@Nonnull LocalDateTime to) {
+    public Collection<Event> getNextEvents(@Nonnull final LocalDateTime to) {
         return eventDao.getNextEvents(to);
     }
 

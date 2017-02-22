@@ -21,7 +21,7 @@ public class WholesaleDiscountStrategy implements DiscountStrategy {
 
     private TicketDao ticketDao;
 
-    private WholesaleDiscountStrategy(final TicketDao ticketDao) {
+    public WholesaleDiscountStrategy(final TicketDao ticketDao) {
         this.ticketDao = ticketDao;
     }
 
@@ -31,12 +31,13 @@ public class WholesaleDiscountStrategy implements DiscountStrategy {
         if (user == null) {
             discountTickets = (int) (numberOfTickets / 10);
         } else {
-            final int ticketsBoughtByUserBefore = ticketDao.getUserTickets(user).size();
-            discountTickets = (int) (ticketsBoughtByUserBefore + numberOfTickets / 10)
-                    - ticketsBoughtByUserBefore / 10;
+            final int ticketsBoughtByUserAfterLastDiscount = ticketDao.getUserTickets(user).size() % 10;
+            discountTickets = (int) (ticketsBoughtByUserAfterLastDiscount + numberOfTickets) / 10;
         }
-        return (byte) (50 * discountTickets + 100 * (numberOfTickets - discountTickets)
-                / numberOfTickets * 100);
+        final double coeff = Math.floor((50 * discountTickets) + (100 * (numberOfTickets - discountTickets))
+                / (numberOfTickets * 100));
+        final double tempDiscount = coeff == 1 ? 0 : coeff / numberOfTickets;
+        return (byte) tempDiscount;
     }
 
 }

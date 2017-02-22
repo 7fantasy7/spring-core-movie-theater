@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.dao.impl;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,7 +21,10 @@ import ua.epam.spring.hometask.domain.User;
  */
 public class TicketDaoImpl implements TicketDao {
 
-    private static final Map<Long, Ticket> tickets  = new HashMap<>();
+    private static Map<Long, Ticket> tickets  = new HashMap<>();
+
+    public TicketDaoImpl(){
+    }
 
     @Override
     public Ticket save(@Nonnull Ticket entity) {
@@ -35,7 +37,7 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public Ticket getById(@Nonnull Serializable id) {
+    public Ticket getById(@Nonnull Long id) {
         return tickets.get(id);
     }
 

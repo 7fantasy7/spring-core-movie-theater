@@ -16,20 +16,31 @@
           class="ua.epam.spring.hometask.dao.impl.UserDaoImpl">
     </bean>
 
+
     <!-- Services -->
     <bean id="auditoriumService"
           class="ua.epam.spring.hometask.service.impl.AuditoriumServiceImpl">
         <constructor-arg>
             <set>
-                <ref bean="auditoriumRed"/>
-                <ref bean="auditoriumYellow"/>
-                <ref bean="auditoriumBlue"/>
+                <bean id="auditoriumRed" class="ua.epam.spring.hometask.domain.Auditorium"
+                      p:name="${one.name}"
+                      p:numberOfSeats="${one.numberOfSeats}"
+                      p:vipSeats="#{'${one.vipSeats}'.split(',')}"/>
+                <bean id="auditoriumYellow" class="ua.epam.spring.hometask.domain.Auditorium"
+                      p:name="${two.name}"
+                      p:numberOfSeats="${two.numberOfSeats}"
+                      p:vipSeats="#{'${two.vipSeats}'.split(',')}"/>
+                <bean id="auditoriumBlue" class="ua.epam.spring.hometask.domain.Auditorium"
+                      p:name="${three.name}"
+                      p:numberOfSeats="${three.numberOfSeats}"
+                      p:vipSeats="#{'${three.vipSeats}'.split(',')}"/>
             </set>
         </constructor-arg>
     </bean>
 
     <bean id="userService"
           class="ua.epam.spring.hometask.service.impl.UserServiceImpl">
+        <constructor-arg ref="userDao"/>
     </bean>
 
     <bean id="bookingService"
@@ -53,6 +64,7 @@
         <constructor-arg ref="eventDao"/>
     </bean>
 
+
     <!-- Discount Strategies -->
     <bean id="birthdayDiscountStrategy"
           class="ua.epam.spring.hometask.strategy.impl.BirthdayDiscountStrategy">
@@ -62,6 +74,7 @@
           class="ua.epam.spring.hometask.strategy.impl.WholesaleDiscountStrategy">
         <constructor-arg ref="ticketDao"/>
     </bean>
+
 
     <!-- Property Configurer -->
     <bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
@@ -73,50 +86,5 @@
         <property name="ignoreResourceNotFound" value="false"/>
     </bean>
     <!--<context:property-placeholder location="file:auditoriums.properties"/>-->
-
-
-    <!--&lt;!&ndash; Auditoriums &ndash;&gt;-->
-    <!--<bean id="auditoriumRed" class="ua.epam.spring.hometask.domain.Auditorium"-->
-          <!--p:name="#{one.name}"-->
-          <!--p:numberOfSeats="#{one.numberOfSeats}"-->
-          <!--p:vipSeats="#{one.vipSeats.split(',')}"/>-->
-
-    <!--&lt;!&ndash;<bean id="auditoriumRed" class="ua.epam.spring.hometask.domain.Auditorium">&ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="name" value="${one.name}"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="numberOfSeats" value="${one.numberOfSeats}"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="vipSeats" value="#{'${one.vipSeats}'.split(',')}"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
-
-    <!--<bean id="auditoriumYellow" class="ua.epam.spring.hometask.domain.Auditorium"-->
-          <!--p:name="#{two.name}"-->
-          <!--p:numberOfSeats="#{two.numberOfSeats}"-->
-          <!--p:vipSeats="#{two.vipSeats.split(',')}"/>-->
-
-    <!--<bean id="auditoriumBlue" class="ua.epam.spring.hometask.domain.Auditorium"-->
-          <!--p:name="#{three.name}"-->
-          <!--p:numberOfSeats="#{three.numberOfSeats}"-->
-          <!--p:vipSeats="#{three.vipSeats.split(',')}"/>-->
-
-    <!-- Auditoriums -->
-    <bean id="auditoriumRed" class="ua.epam.spring.hometask.domain.Auditorium"
-          p:name="${one.name}"
-          p:numberOfSeats="${one.numberOfSeats}"
-          p:vipSeats="#{'${one.vipSeats}'.split(',')}"/>
-
-    <!--<bean id="auditoriumRed" class="ua.epam.spring.hometask.domain.Auditorium">-->
-    <!--<property name="name" value="${one.name}"/>-->
-    <!--<property name="numberOfSeats" value="${one.numberOfSeats}"/>-->
-    <!--<property name="vipSeats" value="#{'${one.vipSeats}'.split(',')}"/>-->
-    <!--</bean>-->
-
-    <bean id="auditoriumYellow" class="ua.epam.spring.hometask.domain.Auditorium"
-          p:name="${two.name}"
-          p:numberOfSeats="${two.numberOfSeats}"
-          p:vipSeats="#{'${two.vipSeats}'.split(',')}"/>
-
-    <bean id="auditoriumBlue" class="ua.epam.spring.hometask.domain.Auditorium"
-          p:name="${three.name}"
-          p:numberOfSeats="${three.numberOfSeats}"
-          p:vipSeats="#{'${three.vipSeats}'.split(',')}"/>
 
 </beans>

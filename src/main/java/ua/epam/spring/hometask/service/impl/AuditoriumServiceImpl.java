@@ -16,7 +16,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
 
     private Collection<Auditorium> auditoriums;
 
-    public AuditoriumServiceImpl(final Collection<Auditorium> auditoriums) {
+    AuditoriumServiceImpl(final Collection<Auditorium> auditoriums) {
         this.auditoriums = auditoriums;
     }
 
@@ -28,7 +28,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
 
     @Nullable
     @Override
-    public Auditorium getByName(@Nonnull String name) {
+    public Auditorium getByName(@Nonnull final String name) {
         return auditoriums.stream()
                 .filter(auditorium -> name.equals(auditorium.getName()))
                 .findAny()

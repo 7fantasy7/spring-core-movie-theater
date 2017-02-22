@@ -19,12 +19,13 @@ public class DiscountServiceImpl implements DiscountService {
 
     private Collection<DiscountStrategy> discountStrategies;
 
-    private DiscountServiceImpl(final Collection<DiscountStrategy> discountStrategies) {
+    DiscountServiceImpl(final Collection<DiscountStrategy> discountStrategies) {
         this.discountStrategies = discountStrategies;
     }
 
     @Override
-    public byte getDiscount(@Nullable User user, @Nonnull Event event, @Nonnull LocalDateTime airDateTime, long numberOfTickets) {
+    public byte getDiscount(@Nullable final User user, @Nonnull final Event event,
+                            @Nonnull final LocalDateTime airDateTime, final long numberOfTickets) {
         return discountStrategies.stream()
                 .map(discountStrategy -> discountStrategy.getDiscount(user, event, airDateTime, numberOfTickets))
                 .max(Byte::compareTo).orElse((byte) 0);

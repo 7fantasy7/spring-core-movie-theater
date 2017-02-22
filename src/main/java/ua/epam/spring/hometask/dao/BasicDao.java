@@ -16,7 +16,7 @@ public interface BasicDao<T> {
     void saveMany(@Nonnull T... entities);
 
     @Nullable
-    T getById(@Nonnull Serializable id);
+    T getById(@Nonnull Long id);
 
     @Nonnull
     Collection<T> getAll();

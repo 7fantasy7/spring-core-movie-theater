@@ -33,16 +33,18 @@ public class Auditorium {
         return name;
     }
 
-    public void setName(String name) {
+    public Auditorium setName(String name) {
         this.name = name;
+        return this;
     }
 
     public long getNumberOfSeats() {
         return numberOfSeats;
     }
 
-    public void setNumberOfSeats(long numberOfSeats) {
+    public Auditorium setNumberOfSeats(long numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
+        return this;
     }
 
     public Set<Long> getAllSeats() {
@@ -53,8 +55,9 @@ public class Auditorium {
         return vipSeats;
     }
 
-    public void setVipSeats(Set<Long> vipSeats) {
+    public Auditorium setVipSeats(Set<Long> vipSeats) {
         this.vipSeats = vipSeats;
+        return this;
     }
 
     @Override

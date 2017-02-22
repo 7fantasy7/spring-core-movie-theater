@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.dao.impl;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,7 +19,10 @@ import ua.epam.spring.hometask.domain.Event;
  */
 public class EventDaoImpl implements EventDao {
 
-    private static final Map<Long, Event> events = new HashMap<>();
+    private static Map<Long, Event> events = new HashMap<>();
+
+    public EventDaoImpl(){
+    }
 
     @Override
     public Event save(@Nonnull Event entity) {
@@ -33,7 +35,7 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public Event getById(@Nonnull Serializable id) {
+    public Event getById(@Nonnull Long id) {
         return events.get(id);
     }
 

@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.dao.impl;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,7 +18,10 @@ import ua.epam.spring.hometask.domain.User;
  */
 public class UserDaoImpl implements UserDao {
 
-    private static final Map<Long, User> users = new HashMap<>();
+    private static Map<Long, User> users = new HashMap<>();
+
+    UserDaoImpl(){
+    }
 
     @Override
     public User save(@Nonnull User entity) {
@@ -32,7 +34,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getById(@Nonnull Serializable id) {
+    public User getById(@Nonnull Long id) {
         return users.get(id);
     }
 

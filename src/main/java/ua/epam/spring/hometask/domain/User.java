@@ -16,44 +16,56 @@ public class User extends DomainObject {
     private LocalDateTime birthDay;
     private NavigableSet<Ticket> tickets = new TreeSet<>();
 
+    public User() {
+    }
+
+    public User(final Long id) {
+        super(id);
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public User setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public User setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public User setEmail(String email) {
         this.email = email;
+        return this;
     }
 
     public NavigableSet<Ticket> getTickets() {
         return tickets;
     }
 
-    public void setTickets(NavigableSet<Ticket> tickets) {
+    public User setTickets(NavigableSet<Ticket> tickets) {
         this.tickets = tickets;
+        return this;
     }
 
     public LocalDateTime getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(LocalDateTime birthDay) {
+    public User setBirthDay(LocalDateTime birthDay) {
         this.birthDay = birthDay;
+        return this;
     }
 
     @Override
