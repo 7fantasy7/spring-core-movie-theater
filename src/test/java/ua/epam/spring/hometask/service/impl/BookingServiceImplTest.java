@@ -7,6 +7,8 @@ import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
+import javax.annotation.Nonnull;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +30,8 @@ public class BookingServiceImplTest {
 
     private TicketDao ticketDao;
 
+    private long idGenerator = 1;
+
     @Before
     public void setUp() {
         final BirthdayDiscountStrategy birthdayDiscountStrategy = new BirthdayDiscountStrategy();
@@ -42,11 +46,11 @@ public class BookingServiceImplTest {
         // given
         final User user = new User(10L);
         final Ticket ticketOne = new Ticket(user, new Event().setName("one"), LocalDateTime.now(), 1);
-        ticketOne.setId(1L);
+        ticketOne.setId(idGenerator++);
         final Ticket ticketTwo = new Ticket(user, new Event().setName("two"), LocalDateTime.now(), 2);
-        ticketTwo.setId(2L);
+        ticketTwo.setId(idGenerator++);
         final Ticket ticketThree = new Ticket(user, new Event().setName("three"), LocalDateTime.now(), 3);
-        ticketThree.setId(3L);
+        ticketThree.setId(idGenerator++);
 
         // when
         bookingService.bookTickets(newHashSet(ticketOne, ticketTwo, ticketThree));
@@ -55,5 +59,7 @@ public class BookingServiceImplTest {
         final Collection<Ticket> userTickets = ticketDao.getUserTickets(user);
         assertEquals(newHashSet(userTickets), newHashSet(ticketOne, ticketTwo, ticketThree));
     }
+
+
 
 }

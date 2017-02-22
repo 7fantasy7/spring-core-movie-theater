@@ -36,18 +36,11 @@ public class BookingServiceImpl implements BookingService {
         final double basePrice = event.getBasePrice();
         final Auditorium auditorium = event.getAuditoriums().get(dateTime);
 
-        final long vipSeatsCount = seats.stream()
-                .filter(seat -> auditorium.getVipSeats().contains(seat))
-                .count();
+        final long vipSeatsCount = countVipSeats(auditorium, seats);
         final long commonSeatsCount = seats.size() - vipSeatsCount;
 
-        double resultPrice = commonSeatsCount * basePrice + vipSeatsCount * basePrice * VIP_SEATS_MULTIPLIER;
-        if (event.getRating() == EventRating.HIGH) {
-            resultPrice *= HIGH_RATED_MOVIES_MULTIPLIER;
-        }
-        resultPrice = resultPrice - discountPercentage * resultPrice;
-
-        return resultPrice;
+        return countResultTicketsPrice(event, basePrice, discountPercentage,
+                commonSeatsCount, vipSeatsCount);
     }
 
     @Override
@@ -66,6 +59,22 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Collection<Ticket> getPurchasedTicketsForEvent(@Nonnull final Event event, @Nonnull final LocalDateTime dateTime) {
         return ticketDao.getPurchasedTicketsForEvent(event, dateTime);
+    }
+
+    private long countVipSeats(final Auditorium auditorium, final Collection<Long> seats) {
+        return seats.stream()
+                .filter(seat -> auditorium.getVipSeats().contains(seat))
+                .count();
+    }
+
+    private double countResultTicketsPrice(final Event event, final double basePrice, final double discountPercentage,
+                                           final long commonSeatsCount, final long vipSeatsCount) {
+        double resultPrice = commonSeatsCount * basePrice + vipSeatsCount * basePrice * VIP_SEATS_MULTIPLIER;
+        if (event.getRating() == EventRating.HIGH) {
+            resultPrice *= HIGH_RATED_MOVIES_MULTIPLIER;
+        }
+        resultPrice = resultPrice - discountPercentage * resultPrice;
+        return resultPrice;
     }
 
 }

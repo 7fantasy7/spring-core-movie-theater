@@ -26,21 +26,24 @@ public class EventServiceImplTest {
 
     private EventDao eventDao;
 
+    private static long idGenerator = 1;
+
     @Before
     public void setUp() {
         eventDao = new EventDaoImpl();
         eventService = new EventServiceImpl(eventDao);
 
-        event = new Event(10L).setRating(EventRating.HIGH).setName("event");
+        event = new Event(idGenerator++).setRating(EventRating.HIGH).setName("event");
     }
 
     @Test
     public void shouldSaveEvent() {
         // given
         final int eventsCount = eventService.getAll().size();
+        final Event newEvent = new Event(idGenerator++).setRating(EventRating.HIGH).setName("new event");
 
         // when
-        eventService.save(event);
+        eventService.save(newEvent);
 
         // then
         final int eventsCountAfterSave = eventService.getAll().size();
@@ -75,20 +78,25 @@ public class EventServiceImplTest {
     @Test
     public void shouldGetForDateRange() {
         // given
+        idGenerator++;
         final LocalDateTime now = LocalDateTime.now();
-        final Event event1 = eventService.save(new Event(1L).setName("one").setAirDates(new TreeSet<LocalDateTime>() {{
+        final Event event1 = eventService.save(new Event(idGenerator++).setName("one").setAirDates(new TreeSet<LocalDateTime>() {{
             add(now.minusDays(2));
         }}));
-        final Event event2 = eventService.save(new Event(2L).setName("two").setAirDates(new TreeSet<LocalDateTime>() {{
+        System.out.println(event1);
+        eventDao.save(event1);
+        final Event event2 = eventService.save(new Event(idGenerator++).setName("two").setAirDates(new TreeSet<LocalDateTime>() {{
             add(now.minusDays(1));
         }}));
-        final Event event3 = eventService.save(new Event(3L).setName("three").setAirDates(new TreeSet<LocalDateTime>() {{
+        eventDao.save(event2);
+        final Event event3 = eventService.save(new Event(idGenerator++).setName("three").setAirDates(new TreeSet<LocalDateTime>() {{
             add(now);
         }}));
-        final Event event4 = eventService.save(new Event(4L).setName("four").setAirDates(new TreeSet<LocalDateTime>() {{
+        eventDao.save(event3);
+        final Event event4 = eventService.save(new Event(idGenerator++).setName("four").setAirDates(new TreeSet<LocalDateTime>() {{
             add(now.plusDays(2));
         }}));
-        eventDao.saveMany(event1, event2, event3, event4);
+        eventDao.save(event4);
 
         // when
         final Collection<Event> events = eventService.getForDateRange(now.minusDays(2).plusHours(10), now.plusDays(1));

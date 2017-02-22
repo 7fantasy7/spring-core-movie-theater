@@ -23,6 +23,8 @@ public class BirthdayDiscountStrategyTest {
 
     private LocalDateTime now = LocalDateTime.now();
 
+    private long idGenerator = 1;
+
     @Before
     public void setUp() {
         final TreeSet<LocalDateTime> times = new TreeSet<LocalDateTime>() {{
@@ -32,13 +34,13 @@ public class BirthdayDiscountStrategyTest {
 
         birthdayDiscountStrategy = new BirthdayDiscountStrategy();
 
-        event = new Event(1L).setBasePrice(10).setRating(EventRating.MID).setAirDates(times);
+        event = new Event(idGenerator++).setBasePrice(10).setRating(EventRating.MID).setAirDates(times);
     }
 
     @Test
     public void shouldGiveBirthdayDiscountBecauseItsFourDayBeforeEvent() {
         // given
-        final User user = new User().setBirthDay(LocalDateTime.now().minusDays(4));
+        final User user = new User(idGenerator++).setBirthDay(LocalDateTime.now().minusDays(4));
 
         // when
         final byte discount = birthdayDiscountStrategy.getDiscount(user, event, now, 1);
@@ -50,7 +52,7 @@ public class BirthdayDiscountStrategyTest {
     @Test
     public void shouldNotDependOnTicketCount() {
         // given
-        final User user = new User().setBirthDay(LocalDateTime.now().minusDays(4));
+        final User user = new User(idGenerator++).setBirthDay(LocalDateTime.now().minusDays(4));
 
         // when
         final byte discount = birthdayDiscountStrategy.getDiscount(user, event, now, 1234567);

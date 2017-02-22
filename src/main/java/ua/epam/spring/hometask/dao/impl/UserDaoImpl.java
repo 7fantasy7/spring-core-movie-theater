@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
 
     private static Map<Long, User> users = new HashMap<>();
 
-    UserDaoImpl(){
+    public UserDaoImpl() {
     }
 
     @Override

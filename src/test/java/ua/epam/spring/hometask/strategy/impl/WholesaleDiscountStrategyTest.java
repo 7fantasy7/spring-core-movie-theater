@@ -26,6 +26,8 @@ public class WholesaleDiscountStrategyTest {
     private Event midEvent;
     private Event highEvent;
 
+    private long idGenerator = 1;
+
     private LocalDateTime now = LocalDateTime.now();
 
     @Before
@@ -39,8 +41,8 @@ public class WholesaleDiscountStrategyTest {
 
         wholesaleDiscountStrategy = new WholesaleDiscountStrategy(ticketDao);
 
-        midEvent = new Event(1L).setBasePrice(10).setRating(EventRating.MID).setAirDates(times);
-        highEvent = new Event(2L).setBasePrice(35).setRating(EventRating.HIGH).setAirDates(times);
+        midEvent = new Event(idGenerator++).setBasePrice(10).setRating(EventRating.MID).setAirDates(times);
+        highEvent = new Event(idGenerator++).setBasePrice(35).setRating(EventRating.HIGH).setAirDates(times);
     }
 
     @Test
@@ -70,7 +72,7 @@ public class WholesaleDiscountStrategyTest {
     @Test
     public void shouldNotGiveWholesaleDiscountForRegisteredUserWithJustOneNumberOfTicket() {
         // given
-        final User user = new User(10L)
+        final User user = new User(idGenerator++)
                 .setFirstName("first")
                 .setLastName("last");
 
@@ -84,10 +86,10 @@ public class WholesaleDiscountStrategyTest {
     @Test
     public void shouldGiveWholesaleDiscountForRegisteredUserWithJustOneNumberOfTicketAndNineInAPast() {
         // given
-        final User user = new User(20L);
+        final User user = new User(idGenerator++);
         user.setTickets(new TreeSet<Ticket>() {{
             for (long i = 1; i < 10; i++) {
-                Ticket ticket = new Ticket(user, new Event(i).setName(String.valueOf(i)), LocalDateTime.now(), i);
+                Ticket ticket = new Ticket(user, new Event(idGenerator++).setName(String.valueOf(i)), LocalDateTime.now(), i);
                 ticket.setId(i);
                 ticketDao.save(ticket);
                 add(ticket);
@@ -104,7 +106,7 @@ public class WholesaleDiscountStrategyTest {
     @Test
     public void shouldDependOnTicketCount() {
         // given
-        final User user = new User(30L).setBirthDay(LocalDateTime.now().minusDays(4));
+        final User user = new User(idGenerator++).setBirthDay(LocalDateTime.now().minusDays(4));
 
         // when
         final byte discountPercent = wholesaleDiscountStrategy.getDiscount(user, highEvent, now, 50);

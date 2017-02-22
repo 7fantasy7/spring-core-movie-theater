@@ -31,10 +31,10 @@ public class AuditoriumServiceImplTest {
     @Test
     public void shouldReturnAllAuditoriums() {
         // when
-        final Collection<Auditorium> auditoriums = auditoriumService.getAll();
+        final Collection<Auditorium> allAuditoriums = auditoriumService.getAll();
 
         // then
-        assertEquals(3, auditoriums.size());
+        assertEquals(auditoriums.size(), allAuditoriums.size());
     }
 
     @Test

@@ -38,6 +38,8 @@ public class DiscountServiceImplTest {
     private LocalDateTime airDateTime;
     private long numberOfTickets;
 
+    private long idGenerator = 1;
+
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
         final TicketDaoImpl ticketDao = new TicketDaoImpl();
@@ -55,7 +57,7 @@ public class DiscountServiceImplTest {
                 .setNumberOfSeats(50).setVipSeats(newHashSet(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L)));
         eventAuditoriums.put(now, new Auditorium().setName("Test auditorium2")
                 .setNumberOfSeats(30).setVipSeats(newHashSet(4L, 5L, 6L, 7L, 8L)));
-        event = new Event(1L).setAirDates(event1Dates).setBasePrice(45.20)
+        event = new Event(idGenerator++).setAirDates(event1Dates).setBasePrice(45.20)
                 .setName("Test event").setRating(EventRating.MID).setAuditoriums(eventAuditoriums);
 
         airDateTime = now;
