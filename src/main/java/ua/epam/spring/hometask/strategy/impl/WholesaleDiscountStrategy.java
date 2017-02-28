@@ -8,6 +8,9 @@ import javax.persistence.Column;
 
 import org.springframework.stereotype.Component;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import ua.epam.spring.hometask.dao.TicketDao;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.User;
@@ -25,6 +28,7 @@ public class WholesaleDiscountStrategy implements DiscountStrategy {
 
     private TicketDao ticketDao;
 
+    @Autowired
     public WholesaleDiscountStrategy(final TicketDao ticketDao) {
         this.ticketDao = ticketDao;
     }

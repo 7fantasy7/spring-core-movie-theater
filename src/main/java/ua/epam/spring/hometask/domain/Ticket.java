@@ -30,6 +30,7 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
 
     @Column(name = "seat")
     private long seat;
+    private double price;
 
     @Column(name = "price")
     private double price;
