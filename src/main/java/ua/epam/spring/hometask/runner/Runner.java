@@ -79,4 +79,5 @@ public class Runner {
         System.out.println(eventService.getByName(event.getName()));
         System.out.println(eventService.getByName(event.getName()).getEventStatistics().getAccessedByName());
     }
+
 }
