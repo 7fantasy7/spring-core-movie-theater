@@ -13,6 +13,8 @@ import ua.epam.spring.hometask.domain.Event;
  */
 public interface EventService extends AbstractDomainObjectService<Event> {
 
+    @Override
+    Event save(@Nonnull Event object);
     /**
      * Finding event by name
      *

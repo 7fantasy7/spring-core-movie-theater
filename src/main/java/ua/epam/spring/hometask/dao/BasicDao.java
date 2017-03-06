@@ -1,6 +1,5 @@
 package ua.epam.spring.hometask.dao;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import javax.annotation.Nonnull;
@@ -25,4 +24,7 @@ public interface BasicDao<T> {
 
     void delete(@Nonnull T entity);
 
+    void clear();
+
+    void flush();
 }

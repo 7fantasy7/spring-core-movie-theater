@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.persistence.Column;
+
+import org.springframework.stereotype.Component;
 
 import ua.epam.spring.hometask.dao.TicketDao;
 import ua.epam.spring.hometask.domain.Event;
@@ -17,6 +20,7 @@ import ua.epam.spring.hometask.strategy.DiscountStrategy;
  *
  * @author Evgeny_Botyanovsky
  */
+@Component
 public class WholesaleDiscountStrategy implements DiscountStrategy {
 
     private TicketDao ticketDao;

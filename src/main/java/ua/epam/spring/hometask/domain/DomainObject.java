@@ -1,10 +1,18 @@
 package ua.epam.spring.hometask.domain;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
 /**
  * @author Yuriy_Tkach
  */
-public class DomainObject {
-
+@MappedSuperclass
+public abstract class DomainObject {
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private Long id;
 
     public DomainObject() {

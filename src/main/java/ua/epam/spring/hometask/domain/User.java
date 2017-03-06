@@ -1,20 +1,48 @@
 package ua.epam.spring.hometask.domain;
 
 import java.time.LocalDateTime;
-import java.util.NavigableSet;
 import java.util.Objects;
+import java.util.SortedSet;
 import java.util.TreeSet;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.SortNatural;
+
+import ua.epam.spring.hometask.domain.stats.DiscountStatistics;
 
 /**
  * @author Yuriy_Tkach
  */
+@Entity
+@Table(name = "user")
 public class User extends DomainObject {
 
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "birth_day")
     private LocalDateTime birthDay;
-    private NavigableSet<Ticket> tickets = new TreeSet<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private DiscountStatistics discountStatistics = new DiscountStatistics();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OrderColumn(name = "order_id")
+    @SortNatural
+    private SortedSet<Ticket> ticket = new TreeSet<>();
 
     public User() {
     }
@@ -50,12 +78,12 @@ public class User extends DomainObject {
         return this;
     }
 
-    public NavigableSet<Ticket> getTickets() {
-        return tickets;
+    public SortedSet<Ticket> getTickets() {
+        return ticket;
     }
 
-    public User setTickets(NavigableSet<Ticket> tickets) {
-        this.tickets = tickets;
+    public User setTickets(SortedSet<Ticket> tickets) {
+        this.ticket = tickets;
         return this;
     }
 
@@ -65,6 +93,15 @@ public class User extends DomainObject {
 
     public User setBirthDay(LocalDateTime birthDay) {
         this.birthDay = birthDay;
+        return this;
+    }
+
+    public DiscountStatistics getDiscountStatistics() {
+        return discountStatistics;
+    }
+
+    public User setDiscountStatistics(DiscountStatistics discountStatistics) {
+        this.discountStatistics = discountStatistics;
         return this;
     }
 

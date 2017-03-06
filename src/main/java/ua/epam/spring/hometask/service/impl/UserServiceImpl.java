@@ -1,10 +1,13 @@
 package ua.epam.spring.hometask.service.impl;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.epam.spring.hometask.dao.UserDao;
 import ua.epam.spring.hometask.domain.User;
@@ -13,10 +16,13 @@ import ua.epam.spring.hometask.service.UserService;
 /**
  * @author Evgeny_Botyanovsky
  */
+@Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
 
+    @Autowired
     UserServiceImpl(final UserDao userDao) {
         this.userDao = userDao;
     }

@@ -2,18 +2,58 @@ package ua.epam.spring.hometask.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Objects;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+
+import ua.epam.spring.hometask.domain.stats.EventStatistics;
 
 /**
  * @author Yuriy_Tkach
  */
+@Entity
+@Table(name = "event")
 public class Event extends DomainObject {
 
+    @Column(name = "name")
     private String name;
-    private NavigableSet<LocalDateTime> airDates = new TreeSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "event_date", joinColumns = @JoinColumn(name = "event_id"))
+    @Column(name = "air_date")
+    @OrderBy
+    private SortedSet<LocalDateTime> airDates = new TreeSet<>();
+
+    @Column(name = "base_price")
     private double basePrice;
+
+    @Enumerated
     private EventRating rating;
-    private NavigableMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "event_auditorium", joinColumns = {@JoinColumn(name = "event_id")}, inverseJoinColumns = {@JoinColumn(name = "auditorium_id")})
+    @OrderBy
+    @MapKeyColumn(name = "date")
+    private SortedMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
+
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
+    private EventStatistics eventStatistics = new EventStatistics(this);
 
     public Event() {
     }
@@ -135,11 +175,11 @@ public class Event extends DomainObject {
         return this;
     }
 
-    public NavigableSet<LocalDateTime> getAirDates() {
+    public SortedSet<LocalDateTime> getAirDates() {
         return airDates;
     }
 
-    public Event setAirDates(NavigableSet<LocalDateTime> airDates) {
+    public Event setAirDates(SortedSet<LocalDateTime> airDates) {
         this.airDates = airDates;
         return this;
     }
@@ -162,12 +202,21 @@ public class Event extends DomainObject {
         return this;
     }
 
-    public NavigableMap<LocalDateTime, Auditorium> getAuditoriums() {
+    public SortedMap<LocalDateTime, Auditorium> getAuditoriums() {
         return auditoriums;
     }
 
-    public Event setAuditoriums(NavigableMap<LocalDateTime, Auditorium> auditoriums) {
+    public Event setAuditoriums(SortedMap<LocalDateTime, Auditorium> auditoriums) {
         this.auditoriums = auditoriums;
+        return this;
+    }
+
+    public EventStatistics getEventStatistics() {
+        return eventStatistics;
+    }
+
+    public Event setEventStatistics(EventStatistics eventStatistics) {
+        this.eventStatistics = eventStatistics;
         return this;
     }
 

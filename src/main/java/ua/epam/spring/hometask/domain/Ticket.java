@@ -3,15 +3,39 @@ package ua.epam.spring.hometask.domain;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * @author Yuriy_Tkach
  */
+@Entity
+@Table(name = "ticket")
 public class Ticket extends DomainObject implements Comparable<Ticket> {
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_id")
     private Event event;
+
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
+
+    @Column(name = "seat")
     private long seat;
+
+    @Column(name = "price")
+    private double price;
+
+    public Ticket() {
+    }
 
     public Ticket(User user, Event event, LocalDateTime dateTime, long seat) {
         this.user = user;
@@ -34,6 +58,15 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
 
     public long getSeat() {
         return seat;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Ticket setPrice(double price) {
+        this.price = price;
+        return this;
     }
 
     @Override
@@ -89,4 +122,14 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "user=" + user +
+                ", event=" + event +
+                ", dateTime=" + dateTime +
+                ", seat=" + seat +
+                ", price=" + price +
+                '}';
+    }
 }

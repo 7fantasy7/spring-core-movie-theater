@@ -7,6 +7,10 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import ua.epam.spring.hometask.dao.TicketDao;
 import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.service.BookingService;
@@ -15,6 +19,8 @@ import ua.epam.spring.hometask.service.DiscountService;
 /**
  * @author Evgeny_Botyanovsky
  */
+@Service
+@Transactional
 public class BookingServiceImpl implements BookingService {
 
     private static final double VIP_SEATS_MULTIPLIER = 2;
@@ -24,6 +30,7 @@ public class BookingServiceImpl implements BookingService {
 
     private TicketDao ticketDao;
 
+    @Autowired
     BookingServiceImpl(final DiscountService discountService, final TicketDao ticketDao) {
         this.discountService = discountService;
         this.ticketDao = ticketDao;

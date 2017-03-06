@@ -7,16 +7,36 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+
 /**
  * @author Yuriy_Tkach
  */
-public class Auditorium {
+@Entity
+@Table(name = "auditorium")
+public class Auditorium extends DomainObject {
 
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "number_of_seats")
     private long numberOfSeats;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "auditorium_vip_seat", joinColumns = @JoinColumn(name = "auditorium_id"))
     private Set<Long> vipSeats = Collections.emptySet();
 
     public Auditorium() {
+    }
+
+    public Auditorium(Long id) {
+        super(id);
     }
 
     /**

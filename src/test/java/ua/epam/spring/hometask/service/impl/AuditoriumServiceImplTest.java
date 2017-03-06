@@ -10,6 +10,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import ua.epam.spring.hometask.dao.impl.AuditoriumDaoImpl;
 import ua.epam.spring.hometask.domain.Auditorium;
 
 /**
@@ -25,7 +26,7 @@ public class AuditoriumServiceImplTest {
 
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
-        auditoriumService = new AuditoriumServiceImpl(auditoriums);
+        auditoriumService = new AuditoriumServiceImpl(auditoriums, new AuditoriumDaoImpl());
     }
 
     @Test
