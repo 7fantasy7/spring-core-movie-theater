@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import freemarker.template.utility.XmlEscape;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +27,21 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import ua.epam.spring.hometask.aspect.LuckyWinnerAspect;
 import ua.epam.spring.hometask.domain.Auditorium;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Evgeny_Botyanovsky
@@ -36,7 +52,8 @@ import ua.epam.spring.hometask.domain.Auditorium;
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableAspectJAutoProxy
 @EnableAsync
-public class MainSpringConfig {
+@EnableWebMvc
+public class MainSpringConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private Environment environment;
@@ -132,6 +149,39 @@ public class MainSpringConfig {
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    @Bean
+    public FreeMarkerConfigurer freemarkerConfig() {
+        FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
+        configurer.setTemplateLoaderPath("/WEB-INF/pages/");
+        Map<String, Object> map = new HashMap<>();
+        map.put("xml_escape", new XmlEscape());
+        configurer.setFreemarkerVariables(map);
+        return configurer;
+    }
+
+    @Bean
+    public ViewResolver viewResolver() {
+        FreeMarkerViewResolver freeMarkerViewResolver = new FreeMarkerViewResolver();
+        //freeMarkerViewResolver.setPrefix("");
+        freeMarkerViewResolver.setSuffix(".ftl");
+        freeMarkerViewResolver.setCache(true);
+        return freeMarkerViewResolver;
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        StandardServletMultipartResolver resolver = new StandardServletMultipartResolver();
+        return resolver;
+    }
+
+    @Bean
+    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+        resolver.setDefaultErrorView("error");
+        resolver.setExceptionAttribute("ex");
+        return resolver;
     }
 
 }

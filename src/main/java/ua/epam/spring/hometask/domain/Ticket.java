@@ -1,14 +1,8 @@
 package ua.epam.spring.hometask.domain;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * @author Yuriy_Tkach
@@ -30,13 +24,6 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
 
     @Column(name = "seat")
     private long seat;
-    private double price;
-
-    @Column(name = "price")
-    private double price;
-
-    public Ticket() {
-    }
 
     public Ticket(User user, Event event, LocalDateTime dateTime, long seat) {
         this.user = user;
@@ -44,6 +31,7 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
         this.dateTime = dateTime;
         this.seat = seat;
     }
+
 
     public User getUser() {
         return user;
