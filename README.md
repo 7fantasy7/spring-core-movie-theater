@@ -1,6 +1,8 @@
 Application has embedder tomcat running on http://localhost:9010/
 DB schema can be found in schema.sql file in /resources/
 
+To run app user maven: clean install -DskipTests tomcat7:run
+
 User json import data example:
 [
   {
