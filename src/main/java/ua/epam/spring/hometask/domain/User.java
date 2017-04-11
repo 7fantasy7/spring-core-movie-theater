@@ -8,10 +8,15 @@ import java.util.TreeSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.SortNatural;
 
@@ -22,27 +27,33 @@ import ua.epam.spring.hometask.domain.stats.DiscountStatistics;
  */
 @Entity
 @Table(name = "user")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class User extends DomainObject {
 
+    @XmlElement
     @Column(name = "first_name")
     private String firstName;
 
+    @XmlElement
     @Column(name = "last_name")
     private String lastName;
 
+    @XmlElement
     @Column(name = "email")
     private String email;
 
+    @XmlElement
     @Column(name = "birth_day")
     private LocalDateTime birthDay;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private DiscountStatistics discountStatistics = new DiscountStatistics();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderColumn(name = "order_id")
     @SortNatural
-    private SortedSet<Ticket> ticket = new TreeSet<>();
+    private SortedSet<Ticket> tickets = new TreeSet<>();
 
     public User() {
     }
@@ -79,11 +90,11 @@ public class User extends DomainObject {
     }
 
     public SortedSet<Ticket> getTickets() {
-        return ticket;
+        return tickets;
     }
 
     public User setTickets(SortedSet<Ticket> tickets) {
-        this.ticket = tickets;
+        this.tickets = tickets;
         return this;
     }
 

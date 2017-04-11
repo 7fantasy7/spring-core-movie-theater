@@ -21,7 +21,6 @@ public class HibernateUtil {
     @Autowired
     void setSessionFactory(SessionFactory sessionFactory) {
         SESSION_FACTORY = sessionFactory;
-        //SESSION_FACTORY.openSession();
     }
 
     public static Session getCurrentSession() {

@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -21,6 +22,10 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import ua.epam.spring.hometask.domain.stats.EventStatistics;
 
@@ -29,20 +34,25 @@ import ua.epam.spring.hometask.domain.stats.EventStatistics;
  */
 @Entity
 @Table(name = "event")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
 public class Event extends DomainObject {
 
+    @XmlElement
     @Column(name = "name")
     private String name;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "event_date", joinColumns = @JoinColumn(name = "event_id"))
     @Column(name = "air_date")
     @OrderBy
     private SortedSet<LocalDateTime> airDates = new TreeSet<>();
 
+    @XmlElement
     @Column(name = "base_price")
     private double basePrice;
 
+    @XmlElement
     @Enumerated
     private EventRating rating;
 

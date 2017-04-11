@@ -18,7 +18,7 @@ public class AuditoriumDaoImpl extends BasicDaoImpl<Auditorium> implements Audit
     public Auditorium getByName(@Nonnull String name) {
         System.out.println(name);
         return (Auditorium) getCurrentSession().createCriteria(getEntityClass())
-                .add(Restrictions.eq("name", name))
+                .add(Restrictions.eq("name", name).ignoreCase())
                 .uniqueResult();
     }
     @Override

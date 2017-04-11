@@ -27,7 +27,7 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     private AuditoriumDao auditoriumDao;
 
     @Autowired
-    AuditoriumServiceImpl(final Collection<Auditorium> auditoriums) {
+    AuditoriumServiceImpl(final Collection<Auditorium> auditoriums, final AuditoriumDao auditoriumDao) {
         this.auditoriums = auditoriums;
         this.auditoriumDao = auditoriumDao;
     }

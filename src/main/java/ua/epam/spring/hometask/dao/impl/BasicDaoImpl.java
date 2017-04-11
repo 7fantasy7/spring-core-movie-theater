@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.epam.spring.hometask.dao.BasicDao;

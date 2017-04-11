@@ -1,6 +1,7 @@
 package ua.epam.spring.hometask.domain;
 
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -25,6 +26,12 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
     @Column(name = "seat")
     private long seat;
 
+    @Column(name = "price")
+    private double price;
+
+    public Ticket() {
+    }
+
     public Ticket(User user, Event event, LocalDateTime dateTime, long seat) {
         this.user = user;
         this.event = event;
@@ -32,21 +39,40 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
         this.seat = seat;
     }
 
-
     public User getUser() {
         return user;
+    }
+
+    public Ticket setUser(User user) {
+        this.user = user;
+        return this;
     }
 
     public Event getEvent() {
         return event;
     }
 
+    public Ticket setEvent(Event event) {
+        this.event = event;
+        return this;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
+    public Ticket setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+        return this;
+    }
+
     public long getSeat() {
         return seat;
+    }
+
+    public Ticket setSeat(long seat) {
+        this.seat = seat;
+        return this;
     }
 
     public double getPrice() {
