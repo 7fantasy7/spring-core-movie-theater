@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8"/>
     <title>Users Service</title>
-<#include "part/common.ftl">
+<#include "../part/common.ftl">
 </head>
 <body>
-<#include "part/header.ftl">
+<#include "../part/header.ftl">
 
 <div class="container">
     <div class="page-header">
@@ -61,6 +61,6 @@
 </#if>
 </div>
 
-<#include "part/footer.ftl">
+<#include "../part/footer.ftl">
 </body>
 </html>

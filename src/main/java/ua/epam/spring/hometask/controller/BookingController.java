@@ -1,26 +1,25 @@
 package ua.epam.spring.hometask.controller;
 
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.google.common.collect.Sets;
-
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.EventService;
 import ua.epam.spring.hometask.service.UserService;
+
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/booking")
@@ -36,6 +35,7 @@ public class BookingController {
     private EventService eventService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/ticket")
+    @PreAuthorize("hasAnyRole('BOOKING_MANAGER', 'REGISTERED_USER')")
     public ModelAndView bookTicket(@RequestParam long userId, @RequestParam long eventId, @RequestParam long seatNo,
                                    @RequestParam LocalDateTime dateTime) {
         User user = userService.getById(userId);
@@ -49,7 +49,7 @@ public class BookingController {
         if (!ticketList.contains(seatNo)) {
             bookingService.bookTickets(Sets.newHashSet(new Ticket().setUser(user).setEvent(event).setSeat(seatNo)));
 
-            ModelAndView modelAndView = new ModelAndView("event");
+            ModelAndView modelAndView = new ModelAndView("authorized/event");
             modelAndView.addObject("event", event);
             return modelAndView;
         }
@@ -57,6 +57,7 @@ public class BookingController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/price")
+    @PreAuthorize("hasAnyRole('BOOKING_MANAGER', 'REGISTERED_USER')")
     public ModelAndView getTicketsPrice(@RequestParam long userId, @RequestParam long eventId,
                                         @RequestParam Set<Long> seats, @RequestParam LocalDateTime dateTime) {
         User user = userService.getById(userId);
@@ -66,12 +67,13 @@ public class BookingController {
         }
         final double ticketsPrice = bookingService.getTicketsPrice(event, dateTime, user, seats);
 
-        ModelAndView modelAndView = new ModelAndView("tickets");
+        ModelAndView modelAndView = new ModelAndView("managing/ticket");
         modelAndView.addObject("price", ticketsPrice);
         return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/event-tickets")
+    @PreAuthorize("hasAnyRole('BOOKING_MANAGER', 'REGISTERED_USER')")
     public ModelAndView getTicketsForEvent(@RequestParam long eventId, @RequestParam LocalDateTime dateTime) {
         Event event = eventService.getById(eventId);
         if (event == null) {
@@ -79,7 +81,7 @@ public class BookingController {
         }
         final Collection<Ticket> purchasedTicketsForEvent = bookingService.getPurchasedTicketsForEvent(event, dateTime);
 
-        ModelAndView modelAndView = new ModelAndView("tickets");
+        ModelAndView modelAndView = new ModelAndView("managing/ticket");
         modelAndView.addObject("tickets", purchasedTicketsForEvent);
         return modelAndView;
     }

@@ -1,26 +1,18 @@
 package ua.epam.spring.hometask.domain;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import org.hibernate.annotations.SortNatural;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import ua.epam.spring.hometask.domain.stats.DiscountStatistics;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.hibernate.annotations.SortNatural;
-
-import ua.epam.spring.hometask.domain.stats.DiscountStatistics;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * @author Yuriy_Tkach
@@ -29,7 +21,7 @@ import ua.epam.spring.hometask.domain.stats.DiscountStatistics;
 @Table(name = "user")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class User extends DomainObject {
+public class User extends DomainObject implements UserDetails {
 
     @XmlElement
     @Column(name = "first_name")
@@ -44,6 +36,14 @@ public class User extends DomainObject {
     private String email;
 
     @XmlElement
+    @Column(name = "password")
+    private String password;
+
+    @XmlElement
+    @Column(name = "roles")
+    private String roles;
+
+    @XmlElement
     @Column(name = "birth_day")
     private LocalDateTime birthDay;
 
@@ -54,6 +54,9 @@ public class User extends DomainObject {
     @OrderColumn(name = "order_id")
     @SortNatural
     private SortedSet<Ticket> tickets = new TreeSet<>();
+
+    @Transient
+    private List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
     public User() {
     }
@@ -89,6 +92,34 @@ public class User extends DomainObject {
         return this;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public User setAuthorities(List<SimpleGrantedAuthority> authorities) {
+        this.authorities = authorities;
+        return this;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public User setRoles(String roles) {
+        this.roles = roles;
+        return this;
+    }
+
     public SortedSet<Ticket> getTickets() {
         return tickets;
     }
@@ -114,6 +145,32 @@ public class User extends DomainObject {
     public User setDiscountStatistics(DiscountStatistics discountStatistics) {
         this.discountStatistics = discountStatistics;
         return this;
+    }
+
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     @Override

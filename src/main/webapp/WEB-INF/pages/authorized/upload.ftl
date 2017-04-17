@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>Batch File Upload</title>
-<#include "part/common.ftl">
+<#include "../part/common.ftl">
 </head>
 <body>
-<#include "part/header.ftl">
+<#include "../part/header.ftl">
 <div class="container">
     <div class="page-header">
         <h1>Batch file upload</h1>
@@ -47,6 +47,6 @@
     </form>
 </div>
 
-<#include "part/footer.ftl">
+<#include "../part/footer.ftl">
 </body>
 </html>

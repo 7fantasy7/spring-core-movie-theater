@@ -1,31 +1,28 @@
 package ua.epam.spring.hometask.config;
 
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-
+import freemarker.template.utility.XmlEscape;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
-import freemarker.template.utility.XmlEscape;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @ComponentScan({"ua.epam.spring.hometask", "ua.epam.spring.hometask.controller"})
 @EnableWebMvc
+@Import({SecurityConfig.class})
 public class MVCConfig extends WebMvcConfigurerAdapter {
 
     @Bean

@@ -14,10 +14,10 @@
             });
         };
     </script>
-<#include "part/common.ftl">
+<#include "../part/common.ftl">
 </head>
 <body>
-<#include "part/header.ftl">
+<#include "../part/header.ftl">
 <div class="container">
     <div class="page-header">
         <h1>PDF Tickets Download</h1>
@@ -25,6 +25,6 @@
     <a href="#" onclick="downloadTickets()" class="btn btn-default">Download</a>
     <div id="file"></div>
 </div>
-<#include "part/footer.ftl">
+<#include "../part/footer.ftl">
 </body>
 </html>
