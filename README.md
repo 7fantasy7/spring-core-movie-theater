@@ -32,3 +32,8 @@ Event json import data example:
     "rating": "LOW"
   }
 ]
+
+Users:
+dalex009@gmail.com 123 REGISTERED_USER
+admin@epam.com admin BOOKING_MANAGER
+

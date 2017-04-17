@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: theater
+-- Host: 127.0.0.1    Database: theater
 -- ------------------------------------------------------
--- Server version	5.7.15-log
+-- Server version	5.7.17-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -43,7 +43,7 @@ CREATE TABLE `ticket` (
 
 LOCK TABLES `ticket` WRITE;
 /*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
-INSERT INTO `ticket` VALUES (1,1,24,'2017-03-06 19:01:03',999,0),(2,2,27,'2017-03-06 19:02:38',999,0),(3,3,30,'2017-03-06 19:04:23',999,0),(4,4,33,'2017-03-06 19:05:16',999,0);
+INSERT INTO `ticket` VALUES (2,2,27,'2017-03-06 19:02:38',999,0),(4,4,33,'2017-03-06 19:05:16',999,0);
 /*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-11 23:20:42
+-- Dump completed on 2017-04-17 19:33:22

@@ -16,28 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `discount_statistics`
+-- Table structure for table `persistent_logins`
 --
 
-DROP TABLE IF EXISTS `discount_statistics`;
+DROP TABLE IF EXISTS `persistent_logins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `discount_statistics` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `birthday_discounts` bigint(20) DEFAULT NULL,
-  `wholesale_discounts` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE `persistent_logins` (
+  `username` varchar(100) NOT NULL,
+  `series` varchar(64) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `last_used` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`series`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `discount_statistics`
+-- Dumping data for table `persistent_logins`
 --
 
-LOCK TABLES `discount_statistics` WRITE;
-/*!40000 ALTER TABLE `discount_statistics` DISABLE KEYS */;
-INSERT INTO `discount_statistics` VALUES (1,0,0),(2,0,0),(3,0,0),(4,0,0),(5,0,0),(6,0,0);
-/*!40000 ALTER TABLE `discount_statistics` ENABLE KEYS */;
+LOCK TABLES `persistent_logins` WRITE;
+/*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
+INSERT INTO `persistent_logins` VALUES ('dalex009@gmail.com','1/IfV7ZimMfgUa6oc4/1og==','+z1FGWX+qhXHVdnvt2SHHQ==','2017-04-17 10:22:10'),('admin@epam.com','1wxOCRRyMo8fM6kEz/R4+A==','thn1KqixhPN/tOIZbIQz3w==','2017-04-17 10:05:04'),('dalex009@gmail.com','dM0yn6QmuzzT4ZKT1qRlrQ==','1kl5w8UI37XQSA+Mb+pUuQ==','2017-04-17 10:27:17'),('dalex009@gmail.com','fabvEK3sofXnMu8dUw2ozw==','w9xyPLPLC4N6X/v/dGR3Kw==','2017-04-17 10:22:07'),('dalex009@gmail.com','LqVjVqFtUMImsKOJfUJGHg==','vrwEHubyIIUJ9Ro89Qtp/w==','2017-04-17 10:22:25'),('admin@epam.com','RwuQ0udzrWlWEK9hRMSuXQ==','u34QvdgkYWTGzQYCXqKJ4w==','2017-04-17 10:06:07'),('dalex009@gmail.com','SgiqSCGPsc4WIOajujbmcg==','YyYxIGL7EdykeA9klHVoRA==','2017-04-17 10:27:21');
+/*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

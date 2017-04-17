@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
 --
--- Host: localhost    Database: theater
+-- Host: 127.0.0.1    Database: theater
 -- ------------------------------------------------------
--- Server version	5.7.15-log
+-- Server version	5.7.17-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,9 +27,11 @@ CREATE TABLE `user` (
   `first_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `last_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `roles` varchar(500) COLLATE utf8_bin DEFAULT 'REGISTERED_USER',
+  `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `birth_day` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +40,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'maxik','botyanovsky','example@epam.com',NULL),(2,'maxik','botyanovsky','example1@epam.com',NULL),(3,'anotherOne','botyanovsky','example2@epam.com',NULL),(4,'anotherOne','botyanovsky','example3@epam.com',NULL),(5,'Max','Sosnovsky','qeeqez@gmail.com','1991-02-21 00:00:00'),(6,'Alex','Dolhi','dalex009@gmail.com','1984-11-22 00:00:00');
+INSERT INTO `user` VALUES (2,'maxik','botyanovsky','example1@epam.com','REGISTERED_USER','',NULL),(4,'anotherOne','botyanovsky','example3@epam.com','REGISTERED_USER','',NULL),(5,'Max','Sosnovsky','qeeqez@gmail.com','REGISTERED_USER','','1991-02-21 00:00:00'),(6,'Alex','Dolhi','dalex009@gmail.com','REGISTERED_USER','123','1984-11-22 00:00:00'),(7,'admin','admin','admin@epam.com','BOOKING_MANAGER','admin','2017-04-17 00:28:17');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-11 23:20:42
+-- Dump completed on 2017-04-17 19:33:22
