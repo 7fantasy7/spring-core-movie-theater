@@ -1,21 +1,9 @@
 package ua.epam.spring.hometask.config;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.sql.DataSource;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -23,9 +11,16 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import ua.epam.spring.hometask.domain.Auditorium;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Evgeny_Botyanovsky
@@ -33,6 +28,9 @@ import ua.epam.spring.hometask.domain.Auditorium;
 @Configuration
 @ComponentScan("ua.epam.spring.hometask")
 @PropertySource(value = {"classpath:/auditoriums.properties", "classpath:/db.properties"})
+/*
+ * 3. Configure appropriate PlatformTransactionManager implementation in Spring application context.
+ */
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableAspectJAutoProxy
 @EnableAsync
@@ -79,9 +77,12 @@ public class MainSpringConfig {
         return bean;
     }
 
+    /*
+     * 3. Configure appropriate PlatformTransactionManager implementation in Spring application context.
+     */
     @Bean
     @Autowired
-    public static HibernateTransactionManager hibernateTransactionManager(DataSource dataSource, SessionFactory sessionFactory) {
+    public static PlatformTransactionManager hibernateTransactionManager(DataSource dataSource, SessionFactory sessionFactory) {
         HibernateTransactionManager txManager = new HibernateTransactionManager(sessionFactory);
         txManager.setDataSource(dataSource);
         return txManager;

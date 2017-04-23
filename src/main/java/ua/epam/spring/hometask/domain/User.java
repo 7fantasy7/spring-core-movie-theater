@@ -55,6 +55,9 @@ public class User extends DomainObject implements UserDetails {
     @SortNatural
     private SortedSet<Ticket> tickets = new TreeSet<>();
 
+    @OneToOne(mappedBy = "user")
+    private UserAccount userAccount;
+
     @Transient
     private List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
@@ -147,6 +150,14 @@ public class User extends DomainObject implements UserDetails {
         return this;
     }
 
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public User setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+        return this;
+    }
 
     @Override
     public String getUsername() {

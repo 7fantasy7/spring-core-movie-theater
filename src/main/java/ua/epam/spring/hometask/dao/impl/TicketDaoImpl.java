@@ -1,23 +1,18 @@
 package ua.epam.spring.hometask.dao.impl;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-
-import javax.annotation.Nonnull;
-
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
-
 import ua.epam.spring.hometask.dao.TicketDao;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
 import ua.epam.spring.hometask.domain.User;
 
-/**
- * @author Evgeny_Botyanovsky
- */
+import javax.annotation.Nonnull;
+import java.time.LocalDateTime;
+import java.util.Collection;
+
 @Repository
-public class TicketDaoImpl extends BasicDaoImpl<Ticket>implements TicketDao {
+public class TicketDaoImpl extends BasicDaoImpl<Ticket> implements TicketDao {
 
     public TicketDaoImpl() {
     }

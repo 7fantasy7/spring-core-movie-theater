@@ -1,20 +1,19 @@
 package ua.epam.spring.hometask.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import ua.epam.spring.hometask.dao.TicketDao;
 import ua.epam.spring.hometask.domain.*;
 import ua.epam.spring.hometask.service.BookingService;
 import ua.epam.spring.hometask.service.DiscountService;
+import ua.epam.spring.hometask.service.exception.NotEnoughMoneyException;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * @author Evgeny_Botyanovsky
@@ -50,21 +49,35 @@ public class BookingServiceImpl implements BookingService {
                 commonSeatsCount, vipSeatsCount);
     }
 
+    /*
+     * 2. Update ticket booking methods to check and withdraw money from user account according to the ticketPrice for particular event.
+     *
+     * 4. Make ticket booking methods transactional using Spring declarative transactions management (either xml or annotation based config).
+     * Till "BookingServiceImpl" is marked @Transactional we don't need to mark every method
+     */
     @Override
     public void bookTickets(@Nonnull final Set<Ticket> tickets) {
         final User user = tickets.iterator().next().getUser();
-        final Ticket[] ticketArray = new Ticket[tickets.size()];
-        tickets.toArray(ticketArray);
-
-        ticketDao.saveMany(ticketArray);
         if (user != null) {
+            final UserAccount userAccount = user.getUserAccount();
+            double totalPrice = tickets.stream().mapToDouble(Ticket::getPrice).sum();
+            if (userAccount.getMoney() < totalPrice) {
+                throw new NotEnoughMoneyException("You don't have enough money");
+            } else {
+                userAccount.setMoney(userAccount.getMoney() - totalPrice);
+            }
+            final Ticket[] ticketArray = new Ticket[tickets.size()];
+            tickets.toArray(ticketArray);
+
+            ticketDao.saveMany(ticketArray);
             user.getTickets().addAll(tickets);
         }
     }
 
     @Nonnull
     @Override
-    public Collection<Ticket> getPurchasedTicketsForEvent(@Nonnull final Event event, @Nonnull final LocalDateTime dateTime) {
+    public Collection<Ticket> getPurchasedTicketsForEvent(@Nonnull final Event event,
+                                                          @Nonnull final LocalDateTime dateTime) {
         return ticketDao.getPurchasedTicketsForEvent(event, dateTime);
     }
 
