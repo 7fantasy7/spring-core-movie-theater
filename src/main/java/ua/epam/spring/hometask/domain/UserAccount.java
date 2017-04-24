@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "user_account")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class UserAccount extends DomainObject {
+public class UserAccount {
 
     @Id
     @GenericGenerator(name = "generator", strategy = "foreign",

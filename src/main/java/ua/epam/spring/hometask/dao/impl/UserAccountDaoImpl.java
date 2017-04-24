@@ -6,6 +6,7 @@ import ua.epam.spring.hometask.domain.UserAccount;
 
 /*
   1. Add DAO and service objects for new entity
+  These methods aren't really needed, because we can work directly with the object
  */
 @Repository
 public class UserAccountDaoImpl extends BasicDaoImpl<UserAccount> implements UserAccountDao {

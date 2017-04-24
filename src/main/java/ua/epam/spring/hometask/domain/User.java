@@ -55,8 +55,8 @@ public class User extends DomainObject implements UserDetails {
     @SortNatural
     private SortedSet<Ticket> tickets = new TreeSet<>();
 
-    @OneToOne(mappedBy = "user")
-    private UserAccount userAccount;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserAccount userAccount = new UserAccount();
 
     @Transient
     private List<SimpleGrantedAuthority> authorities = new ArrayList<>();

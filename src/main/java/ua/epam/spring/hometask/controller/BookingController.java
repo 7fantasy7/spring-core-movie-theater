@@ -3,11 +3,14 @@ package ua.epam.spring.hometask.controller;
 
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import ua.epam.spring.hometask.domain.Event;
 import ua.epam.spring.hometask.domain.Ticket;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/booking")
+@Transactional
 public class BookingController {
 
     @Autowired
@@ -84,6 +88,16 @@ public class BookingController {
         ModelAndView modelAndView = new ModelAndView("managing/ticket");
         modelAndView.addObject("tickets", purchasedTicketsForEvent);
         return modelAndView;
+    }
+
+    /*
+     * Test method for account filling
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/test-user-acc")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void testUserAccount(@RequestParam double diff) {
+        User user = userService.getById(2L);
+        user.getUserAccount().setMoney(user.getUserAccount().getMoney() + diff);
     }
 
 }
