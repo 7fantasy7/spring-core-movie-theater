@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.SortNatural;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,6 +35,7 @@ public class User extends DomainObject implements UserDetails {
 
     @XmlElement
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     @XmlElement
@@ -46,6 +48,7 @@ public class User extends DomainObject implements UserDetails {
     private LocalDateTime birthDay;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private DiscountStatistics discountStatistics = new DiscountStatistics();
 
     @XmlElementWrapper(name = "tickets")
@@ -57,10 +60,12 @@ public class User extends DomainObject implements UserDetails {
 
     @XmlElement
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private UserAccount userAccount = new UserAccount();
 
     @XmlTransient
     @Transient
+    @JsonIgnore
     private List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
     public User() {

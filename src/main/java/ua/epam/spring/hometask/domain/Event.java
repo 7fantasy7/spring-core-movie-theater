@@ -3,12 +3,35 @@ package ua.epam.spring.hometask.domain;
 import ua.epam.spring.hometask.domain.jaxb.LocalDateTimeAdapter;
 import ua.epam.spring.hometask.domain.stats.EventStatistics;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.*;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Objects;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 @Entity
 @Table(name = "event")
@@ -212,6 +235,17 @@ public class Event extends DomainObject {
     public Event setEventStatistics(EventStatistics eventStatistics) {
         this.eventStatistics = eventStatistics;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" + "name='" + name + '\'' +
+                ", airDates=" + airDates +
+                ", basePrice=" + basePrice +
+                ", rating=" + rating +
+                ", auditoriums=" + auditoriums +
+                ", eventStatistics=" + eventStatistics +
+                '}';
     }
 
     @Override

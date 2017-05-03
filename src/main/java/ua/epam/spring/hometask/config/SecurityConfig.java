@@ -30,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/login", "/index", "/booking/test-user-acc/**", "/ws/**").permitAll()
+                .antMatchers("/", "/login", "/index", "/booking/test-user-acc/**").permitAll()
+                .antMatchers("/ws/**", "/api/**").permitAll() // TODO for tests, put under security later
                 .antMatchers("/ticket").hasRole("BOOKING_MANAGER")
                 .antMatchers("/user", "/auditorium", "/event", "/upload").hasAnyRole("REGISTERED_USER", "BOOKING_MANAGER")
                 .antMatchers("/**").hasAnyRole("REGISTERED_USER", "BOOKING_MANAGER")

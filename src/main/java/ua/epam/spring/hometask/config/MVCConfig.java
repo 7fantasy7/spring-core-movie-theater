@@ -6,17 +6,27 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.accept.ContentNegotiationManagerFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+import ua.epam.spring.hometask.converter.TicketPdfHttpMessageConverter;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -78,5 +88,29 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/WEB-INF/pages/").addResourceLocations("/pages/");
     }
 
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(ticketPdfHttpMessageConverter());
+        converters.add(new MappingJackson2HttpMessageConverter());
+        super.configureMessageConverters(converters);
+    }
+
+    @Bean
+    public TicketPdfHttpMessageConverter ticketPdfHttpMessageConverter() {
+        return new TicketPdfHttpMessageConverter();
+    }
+
+    @Bean
+    public ContentNegotiatingViewResolver contentNegotiatingViewResolver() {
+        ContentNegotiationManagerFactoryBean manager = new ContentNegotiationManagerFactoryBean();
+        manager.addMediaType("json", MediaType.APPLICATION_JSON);
+        manager.addMediaType("pdf", MediaType.APPLICATION_PDF);
+        manager.setDefaultContentType(MediaType.APPLICATION_JSON);
+
+        ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+        resolver.setOrder(1);
+        resolver.setContentNegotiationManager(manager.getObject());
+        return resolver;
+    }
 
 }
