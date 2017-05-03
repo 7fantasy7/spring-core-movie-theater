@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://epam.com/movie-theater-web-service"
+           xmlns:tns="https://epam.com/movie-theater-web-service"
+           version="1.0">
+
+    <xs:element name="domainObject" type="tns:domainObject"/>
+
+    <xs:element name="event" type="tns:event"/>
+
+    <xs:element name="ticket" type="tns:ticket"/>
+
+    <xs:element name="user" type="tns:user"/>
+
+    <xs:element name="userAccount" type="tns:userAccount"/>
+
+    <xs:complexType name="event">
+        <xs:complexContent>
+            <xs:extension base="tns:domainObject">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="name" type="xs:string"/>
+                    <xs:element minOccurs="0" name="air_dates">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element maxOccurs="unbounded" minOccurs="0" name="air_date" type="xs:string"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="basePrice" type="xs:double"/>
+                    <xs:element minOccurs="0" name="rating" type="tns:eventRating"/>
+                    <xs:element minOccurs="0" name="eventStatistics" type="tns:eventStatistics"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType abstract="true" name="domainObject">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="eventStatistics">
+        <xs:complexContent>
+            <xs:extension base="tns:domainObject">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="accessedByName" type="xs:long"/>
+                    <xs:element minOccurs="0" name="bookedTickets" type="xs:long"/>
+                    <xs:element minOccurs="0" ref="tns:event"/>
+                    <xs:element minOccurs="0" name="pricesQueried" type="xs:long"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="user">
+        <xs:complexContent>
+            <xs:extension base="tns:domainObject">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+                    <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+                    <xs:element minOccurs="0" name="email" type="xs:string"/>
+                    <xs:element minOccurs="0" name="password" type="xs:string"/>
+                    <xs:element minOccurs="0" name="roles" type="xs:string"/>
+                    <xs:element minOccurs="0" name="birthDay" type="xs:string"/>
+                    <xs:element minOccurs="0" name="discountStatistics" type="tns:discountStatistics"/>
+                    <xs:element minOccurs="0" name="tickets">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:ticket"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" ref="tns:userAccount"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="discountStatistics">
+        <xs:complexContent>
+            <xs:extension base="tns:domainObject">
+                <xs:sequence>
+                    <xs:element name="birthdayDiscounts" type="xs:long"/>
+                    <xs:element minOccurs="0" ref="tns:user"/>
+                    <xs:element name="wholesaleDiscounts" type="xs:long"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ticket">
+        <xs:complexContent>
+            <xs:extension base="tns:domainObject">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="dateTime" type="xs:string"/>
+                    <xs:element minOccurs="0" ref="tns:event"/>
+                    <xs:element name="price" type="xs:double"/>
+                    <xs:element name="seat" type="xs:long"/>
+                    <xs:element minOccurs="0" ref="tns:user"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="userAccount">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="id" type="xs:long"/>
+            <xs:element minOccurs="0" ref="tns:user"/>
+            <xs:element name="money" type="xs:double"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="eventRating">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="MID"/>
+            <xs:enumeration value="LOW"/>
+            <xs:enumeration value="HIGH"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="GetUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="userId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetUserResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="User" type="tns:user"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="PutUserRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="User" type="tns:user"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="PutUserResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="User" type="tns:user"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

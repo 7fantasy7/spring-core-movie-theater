@@ -1,15 +1,18 @@
 package ua.epam.spring.hometask.domain;
 
-import javax.persistence.*;
+import ua.epam.spring.hometask.domain.jaxb.LocalDateTimeAdapter;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-/**
- * @author Yuriy_Tkach
- */
 @Entity
 @Table(name = "ticket")
+@XmlRootElement
+@XmlType
 public class Ticket extends DomainObject implements Comparable<Ticket> {
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -57,6 +60,7 @@ public class Ticket extends DomainObject implements Comparable<Ticket> {
         return this;
     }
 
+    @XmlJavaTypeAdapter(type = LocalDateTime.class, value = LocalDateTimeAdapter.class)
     public LocalDateTime getDateTime() {
         return dateTime;
     }

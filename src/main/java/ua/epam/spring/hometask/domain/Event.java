@@ -1,47 +1,29 @@
 package ua.epam.spring.hometask.domain;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.MapKeyColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
+import ua.epam.spring.hometask.domain.jaxb.LocalDateTimeAdapter;
 import ua.epam.spring.hometask.domain.stats.EventStatistics;
 
-/**
- * @author Yuriy_Tkach
- */
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+
 @Entity
 @Table(name = "event")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
+@XmlType
 public class Event extends DomainObject {
 
     @XmlElement
     @Column(name = "name")
     private String name;
 
+    @XmlElementWrapper(name = "air_dates")
+    @XmlElement(name = "air_date")
+    @XmlJavaTypeAdapter(type = LocalDateTime.class, value = LocalDateTimeAdapter.class)
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "event_date", joinColumns = @JoinColumn(name = "event_id"))
     @Column(name = "air_date")
@@ -56,12 +38,14 @@ public class Event extends DomainObject {
     @Enumerated
     private EventRating rating;
 
+    @XmlTransient
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "event_auditorium", joinColumns = {@JoinColumn(name = "event_id")}, inverseJoinColumns = {@JoinColumn(name = "auditorium_id")})
     @OrderBy
     @MapKeyColumn(name = "date")
     private SortedMap<LocalDateTime, Auditorium> auditoriums = new TreeMap<>();
 
+    @XmlElement
     @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
     private EventStatistics eventStatistics = new EventStatistics(this);
 

@@ -1,5 +1,6 @@
 package ua.epam.spring.hometask.domain;
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -7,17 +8,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-
-/**
- * @author Yuriy_Tkach
- */
 @Entity
 @Table(name = "auditorium")
 public class Auditorium extends DomainObject {

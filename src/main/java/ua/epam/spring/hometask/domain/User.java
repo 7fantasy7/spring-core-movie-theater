@@ -4,23 +4,20 @@ import org.hibernate.annotations.SortNatural;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ua.epam.spring.hometask.domain.jaxb.LocalDateTimeAdapter;
 import ua.epam.spring.hometask.domain.stats.DiscountStatistics;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 import java.util.*;
 
-/**
- * @author Yuriy_Tkach
- */
 @Entity
 @Table(name = "user")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
+@XmlType
 public class User extends DomainObject implements UserDetails {
 
     @XmlElement
@@ -44,20 +41,25 @@ public class User extends DomainObject implements UserDetails {
     private String roles;
 
     @XmlElement
+    @XmlJavaTypeAdapter(type = LocalDateTime.class, value = LocalDateTimeAdapter.class)
     @Column(name = "birth_day")
     private LocalDateTime birthDay;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private DiscountStatistics discountStatistics = new DiscountStatistics();
 
+    @XmlElementWrapper(name = "tickets")
+    @XmlElement(name = "ticket")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderColumn(name = "order_id")
     @SortNatural
     private SortedSet<Ticket> tickets = new TreeSet<>();
 
+    @XmlElement
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserAccount userAccount = new UserAccount();
 
+    @XmlTransient
     @Transient
     private List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 

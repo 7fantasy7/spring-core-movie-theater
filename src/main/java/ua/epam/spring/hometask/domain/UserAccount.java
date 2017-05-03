@@ -9,11 +9,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/*
- * 1. Add new entity to the application - UserAccount,
- * it should store the amount of prepaid money user has in the system,
- * which should be used during booking procedure.
- */
 @Entity
 @Table(name = "user_account")
 @XmlAccessorType(XmlAccessType.FIELD)
